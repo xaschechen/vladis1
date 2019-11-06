@@ -1,0 +1,20 @@
+2019-11-06 09:58:03
+PING 87.250.250.242 (87.250.250.242) 56(84) bytes of data.
+64 bytes from 87.250.250.242: icmp_seq=1 ttl=56 time=4.18 ms
+64 bytes from 87.250.250.242: icmp_seq=2 ttl=56 time=4.18 ms
+64 bytes from 87.250.250.242: icmp_seq=3 ttl=56 time=5.74 ms
+
+--- 87.250.250.242 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+rtt min/avg/max/mdev = 4.180/4.701/5.744/0.741 ms
+
+2019-11-06 09:58:12
+PING 87.250.250.242 (87.250.250.242) 56(84) bytes of data.
+64 bytes from 87.250.250.242: icmp_seq=1 ttl=56 time=4.12 ms
+64 bytes from 87.250.250.242: icmp_seq=2 ttl=56 time=4.19 ms
+64 bytes from 87.250.250.242: icmp_seq=3 ttl=56 time=5.79 ms
+
+--- 87.250.250.242 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+rtt min/avg/max/mdev = 4.129/4.706/5.793/0.770 ms
+
