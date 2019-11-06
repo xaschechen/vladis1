@@ -2,6 +2,7 @@
 
 define('DOCROOT', __DIR__);
 require_once DOCROOT.'/functions.inc.php';
+
 $do = isset($_GET['do']) ? $_GET['do'] : 'index';
 $folders = get_folders();
 $list = get_list();
@@ -9,12 +10,16 @@ $list = get_list();
 ob_start();
 switch($do)
 {
+	/*
+	 * Выводим список групп и адресов
+	 */
 	case 'index':
-		// echo '<pre>'.print_r($folders, true).'</pre>';
-		// echo '<pre>'.print_r($list, true).'</pre>';
-		require_once DOCROOT.'/index.view.php';
+		require_once DOCROOT.'/templates/index.view.php';
 		break;
 	
+	/*
+	 * Пинг IP и сохрание результата
+	 */
 	case 'ping_ip':
 		$id = isset($_GET['id']) ? $_GET['id'] : NULL;
 		if ( is_null($id) OR !preg_match('/^[0-9]+\.[0-9]+$/', $id) )
@@ -26,9 +31,12 @@ switch($do)
 		exec ('ping -c 3 '.$row['ip'], $out);
 		echo '<pre>'.print_r($out, true).'</pre>';
 		$result = date('Y-m-d H:i:s')."\r\n".implode("\r\n", $out)."\r\n\r\n";
-		file_put_contents(DOCROOT.'/stats.'.$folder_id.'.'.$ip_id.'.txt', $result, FILE_APPEND);
+		file_put_contents(DOCROOT.'/data/stats.'.$folder_id.'.'.$ip_id.'.txt', $result, FILE_APPEND);
 		break;
 	
+	/*
+	 * Выводим статистику по IP
+	 */
 	case 'stats_ip':
 		$id = isset($_GET['id']) ? $_GET['id'] : NULL;
 		if ( is_null($id) OR !preg_match('/^[0-9]+\.[0-9]+$/', $id) )
@@ -37,12 +45,15 @@ switch($do)
 		list($folder_id, $ip_id) = explode('.', $id);
 		$row = $list['data'][$folder_id][$ip_id];
 		
-		$out = file_get_contents(DOCROOT.'/stats.'.$folder_id.'.'.$ip_id.'.txt');
-		$out = str_replace("\r\n", '<br />', $out);
+		$out = file_get_contents(DOCROOT.'/data/stats.'.$folder_id.'.'.$ip_id.'.txt');
+		$out = str_replace("\n", '<br />', $out);
 		echo '<h2>'.$row['ip'].'</h2>';
 		echo $out;
 		break;
 	
+	/*
+	 * Редактирование группы
+	 */
 	case 'edit_folder':
 		$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 		$last = end($folders);
@@ -64,9 +75,12 @@ switch($do)
 			</script>';
 		}
 		
-		require_once DOCROOT.'/edit_folder.view.php';
+		require_once DOCROOT.'/templates/edit_folder.view.php';
 		break;
 	
+	/*
+	 * Редактирование IP-адреса
+	 */
 	case 'edit_ip':
 		$id = isset($_GET['id']) ? $_GET['id'] : NULL;
 		if ( is_null($id) OR !preg_match('/^[0-9]+\.[0-9]+$/', $id) )
@@ -90,7 +104,7 @@ switch($do)
 			</script>';
 		}
 		
-		require_once DOCROOT.'/edit_ip.view.php';
+		require_once DOCROOT.'/templates/edit_ip.view.php';
 		break;
 }
 $content = ob_get_clean();
